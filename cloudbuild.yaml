@@ -1,0 +1,29 @@
+steps:
+- id: see all
+  name: 'gcr.io/cloud-foundation-cicd/cft/developer-tools:1.16.5'
+  # args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && prepare_environment']
+  entrypoint: bash
+  args:
+   - -c
+   - |
+     pwd
+- id: retrieve delta
+  name: gcr.io/cloud-builders/git
+  entrypoint: bash
+  args:
+    - -c
+    - |
+      git fetch --unshallow
+      git diff origin/${_BASE_BRANCH} --name-only > _changed_files
+      cat _changed_files
+      ls
+- id: prepare
+  name: 'gcr.io/cloud-foundation-cicd/cft/developer-tools:1.16.5'
+  # args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && prepare_environment']
+  entrypoint: bash
+  args:
+   - -c
+   - |
+     pwd
+     ls -lah 
+
